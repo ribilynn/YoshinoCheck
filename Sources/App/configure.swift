@@ -1,10 +1,15 @@
 import Vapor
 
-// configures your application
 public func configure(_ app: Application) throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+    
+    let versionController = VersionController(app: app)
+    
+    // Register Routers
+    app.get { req in
+        return "たべるンゴ🍎"
+    }
 
-    // register routes
-    try routes(app)
+    app.get("version") { _ -> EventLoopFuture<String> in
+        versionController.checkNewest()
+    }
 }
